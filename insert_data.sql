@@ -123,3 +123,22 @@ VALUES
     ((SELECT collection_id FROM collections WHERE name = 'Classic Anthems'), (SELECT track_id FROM tracks WHERE name = 'Come Together')),
     ((SELECT collection_id FROM collections WHERE name = 'Classic Anthems'), (SELECT track_id FROM tracks WHERE name = 'Shake It Off'))
 ON CONFLICT (collection_id, track_id) DO NOTHING;
+
+-- Добавляем треки, которые ДОЛЖНЫ попасть в выборку
+INSERT INTO tracks (name, duration, album_id) VALUES
+    ('my own', 180, (SELECT album_id FROM albums LIMIT 1)),
+    ('own my', 185, (SELECT album_id FROM albums LIMIT 1)),
+    ('my', 190, (SELECT album_id FROM albums LIMIT 1)),
+    ('oh my god', 195, (SELECT album_id FROM albums LIMIT 1))
+ON CONFLICT DO NOTHING;
+
+-- Добавляем треки, которые НЕ ДОЛЖНЫ попасть в выборку
+INSERT INTO tracks (name, duration, album_id) VALUES
+    ('myself', 200, (SELECT album_id FROM albums LIMIT 1)),
+    ('by myself', 205, (SELECT album_id FROM albums LIMIT 1)),
+    ('bemy self', 210, (SELECT album_id FROM albums LIMIT 1)),
+    ('myself by', 215, (SELECT album_id FROM albums LIMIT 1)),
+    ('by myself by', 220, (SELECT album_id FROM albums LIMIT 1)),
+    ('beemy', 225, (SELECT album_id FROM albums LIMIT 1)),
+    ('premyne', 230, (SELECT album_id FROM albums LIMIT 1))
+ON CONFLICT DO NOTHING;

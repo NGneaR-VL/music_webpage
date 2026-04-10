@@ -18,7 +18,15 @@ WHERE POSITION(' ' IN name) = 0;
 
 SELECT name AS track_name
 FROM tracks
-WHERE LOWER(name) LIKE '%my%' OR LOWER(name) LIKE '%мой%';
+WHERE 
+    name ILIKE 'my' 
+    OR name ILIKE 'my %' 
+    OR name ILIKE '% my' 
+    OR name ILIKE '% my %'
+    OR name ILIKE 'мой' 
+    OR name ILIKE 'мой %' 
+    OR name ILIKE '% мой' 
+    OR name ILIKE '% мой %';
 
 SELECT g.name AS genre, COUNT(ag.artist_id) AS artist_count
 FROM genres g
